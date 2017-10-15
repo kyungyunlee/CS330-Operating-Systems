@@ -105,6 +105,7 @@ Operating systems are higher level than ISAs and microarchitecture.
 
   * Software level : Petersons solution (교수님 제발..)
     * Petersons solutions provides a software level sync that assures mutual exclusion and starvation-free progress. 
+    
 ```
 // for process i 
 do {
@@ -116,7 +117,8 @@ do {
   //remainder section
 } while (TRUE);
 ```
-    * Prove mutual exclusion is always satisfied
+
+   * Prove mutual exclusion is always satisfied
       * We need to show that no 2 processes are in the critical section at the same time. 
       * Lets say that process i is in the critical section. This means that either 1. flag[j] = FALSE or 2. victim = j. Also, flag[i] = TRUE, since process i is in the critical section.
         * Assume flag[j] == FALSE;
@@ -194,7 +196,10 @@ do {
         }
 
         /* for cond var x, x.wait() will be :
-          여기서 키포인트는 현재 프로세스가 블락되면 모니터를 안쓰게 되니까 그럼 다른 프로세스가 쓰게 해주자라는것이다. 그럼 queue가 3개인데 누구한테 쓰라고 하면 되나. 일단 cond var queue는 아니겠지, 왜냐면 그거 누가 쓰고 있으니까 지금 프로세스가 블락되는거자나. 그럼 entry queue vs signal queue인데, signal queue에 있는 프로세스들은 이미 모니터안에 들어와있었으니까 걔네들한테 우선순위를 주는게 맞지 않겠냐. 그래서 만약에 signal queue에 있는 프로세스가 있다면 걔네들을 먼저 실행시켜준다. 만약 아무도 없었다면 entry queue에 있던 친구를 실행시켜주면 되겠지.
+          여기서 키포인트는 현재 프로세스가 블락되면 모니터를 안쓰게 되니까 그럼 다른 프로세스가 쓰게 해주자라는것이다. 
+          그럼 queue가 3개인데 누구한테 쓰라고 하면 되나. 일단 cond var queue는 아니겠지, 왜냐면 그거 누가 쓰고 있으니까 지금 프로세스가 블락되는거자나. 
+          그럼 entry queue vs signal queue인데, signal queue에 있는 프로세스들은 이미 모니터안에 들어와있었으니까 걔네들한테 우선순위를 주는게 맞지 않겠냐.
+          그래서 만약에 signal queue에 있는 프로세스가 있다면 걔네들을 먼저 실행시켜준다. 만약 아무도 없었다면 entry queue에 있던 친구를 실행시켜주면 되겠지.
           x_count ++;
           // before the current process gets blocked, run other processes
           if (signal_queue_count > 0 ) {
@@ -207,7 +212,11 @@ do {
         */
 
         /* for cond var x, x.signal() will be :
-        여기의 포인트는 내가 resource를 free시키면 x.wait()에 기다리던 아이를 깨우게 된다. 근데 그럼 모니터 안에 프로세스가 2개가 동시에 실행되게 돼는데 이건 모니터의 룰을 어기는 것이라 불법이다. 그래서 시그널을 보낸 애를 기다리게 하자라는 것이다. 근데 만약에 이 resource (즉 x)를 기다리던 아이가 없었다면 상관없다. 하지만 x를 기다리고 있어서 깨워지는 친구가 있다면 나는 signal queue에 들어가서 기다릴것이다. 그럼 다시 어떤 프로세스가 resource를 기다리게 되거나 (x.wait()을 불러서) 어떤 프로세스가 모니터를 다 사용하고 나갈때 이 프로세스를 깨워주게 될것이다.
+        여기의 포인트는 내가 resource를 free시키면 x.wait()에 기다리던 아이를 깨우게 된다. 
+        근데 그럼 모니터 안에 프로세스가 2개가 동시에 실행되게 돼는데 이건 모니터의 룰을 어기는 것이라 불법이다. 
+        그래서 시그널을 보낸 애를 기다리게 하자라는 것이다. 근데 만약에 이 resource (즉 x)를 기다리던 아이가 없었다면 상관없다. 
+        하지만 x를 기다리고 있어서 깨워지는 친구가 있다면 나는 signal queue에 들어가서 기다릴것이다. 
+        그럼 다시 어떤 프로세스가 resource를 기다리게 되거나 (x.wait()을 불러서) 어떤 프로세스가 모니터를 다 사용하고 나갈때 이 프로세스를 깨워주게 될것이다.
           if (x_count > 0) {
             signal_queue_count ++;
             signal(x_sem);
