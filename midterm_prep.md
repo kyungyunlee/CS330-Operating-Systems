@@ -195,6 +195,7 @@ struct list sleeping_list;
 
   * Software level : Petersons solution (교수님 제발..)
     * Petersons solutions provides a software level sync that assures mutual exclusion and starvation-free progress. 
+    
 ```
 // for process i 
 do {
@@ -248,6 +249,7 @@ do {
           * signal queue : a process that has called signal() on the condition will wake up a process in the condition queue before it exits. If there is a process to be woken up, it will wait in this queue until that process exits the monitor or goes into another condition queue.
 
 ```
+<<<<<<< HEAD
 monitor Monitor {
   semaphore mutex; // for entering monitor
   semaphore x_sem; // for cond var x
